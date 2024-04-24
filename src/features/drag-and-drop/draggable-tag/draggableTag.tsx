@@ -22,9 +22,10 @@ export default ({ tag }: Props) => {
         padding: "5px",
         margin: "5px",
         opacity: isDragging ? 0.5 : 1,
-        position: "absolute",
+        // position: "absolute",
         left: tag.left,
         top: tag.top,
+        //   zIndex: 1000, // Ensure the tag appears above the PDF
       }}>
       {tag.text}
     </div>

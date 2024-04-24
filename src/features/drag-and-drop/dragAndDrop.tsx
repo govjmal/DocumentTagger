@@ -18,8 +18,9 @@ export default ({ pdfFile }: Props) => {
   };
 
   const handleDrop = (page: any) => (item: any) => {
-    const newTag = item.tag;
     alert("drop");
+    const newTag = item.tag;
+
     setTags([...tags, { page, tag: newTag }]);
   };
 
@@ -29,8 +30,19 @@ export default ({ pdfFile }: Props) => {
       <Page
         key={`page_${i}`}
         pageNumber={i}
-        onDrop={handleDrop(i)}
         renderTextLayer={false}
+        onDragOver={(e: any) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+        onDrop={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          e.dataTransfer.items[0].getAsString((c: any) => console.log(JSON.parse(c)));
+          // const item = JSON.parse(e.dataTransfer.getData("text"));
+
+          // handleDrop(i + 1)(item);
+        }}
         renderAnnotationLayer={false}
         width={800}
         className="mt-6">
