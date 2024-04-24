@@ -20,6 +20,9 @@
     "@vitejs/plugin-react": "^4.2.1",
     "bulma": "^1.0.0",
     "eslint": "^8.57.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-pdf": "^7.7.1",
     "vite": "^5.2.10",
     "zustand": "^4.5.2"
   }
