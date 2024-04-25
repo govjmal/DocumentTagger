@@ -1,6 +1,6 @@
 import { useTaggablePdfStore } from "./taggablePdf.store";
 import Skeleton from "./skeleton/skeleton";
-import { DragAndDrop } from "../drag-and-drop";
+import { DragAndDrop } from ".";
 
 export default function TaggablePdf() {
   const pdfFile = useTaggablePdfStore((x) => x.pdfFile);
