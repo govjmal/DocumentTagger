@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { usePdfDisplayStore } from "../../../pdf-display/pdfDisplay.store";
 import { PageClass } from "../../../pdf-display/constants/reactPdf";
 
-interface Props {
+export interface Props {
   x: number;
   y: number;
   width: number;

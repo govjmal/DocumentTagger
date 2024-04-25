@@ -1,38 +1,18 @@
-import React, { useEffect, useMemo, useRef } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import PdfDisplay from "../../pdf-display/pdfDisplay";
-import Region from "./region/region";
-import { usePdfDisplayStore } from "../../pdf-display/pdfDisplay.store";
-import { PageClass } from "../../pdf-display/constants/reactPdf";
+import Region, { Props as RegionProps } from "./region/region";
 
 interface Props {
   pdfFile: File;
 }
 
 export default ({ pdfFile }: Props) => {
-  // const pdfContainerRef = usePdfDisplayStore((x) => x.pdfRef);
-  const [regions, setRegions] = useState<{ x: number; y: number; width: number; height: number; pageNumber: number }[]>(
-    []
-  );
+  const [regions, setRegions] = useState<RegionProps[]>([]);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [startPosition, setStartPosition] = useState<{ x: number; y: number } | null>(null);
   const [currentRegion, setCurrentRegion] = useState<{ x: number; y: number; width: number; height: number } | null>(
     null
   );
-  // const [pdfScale, setPdfScale] = useState<number>(1);
-  // const [pdfPages, setPdfPages] = useState<number>(1);
-
-  // useEffect(() => {
-  //   function updateDimensions() {
-  //     if (pdfContainerRef.current) {
-  //       const rect = pdfContainerRef.current.getBoundingClientRect();
-  //       setPdfScale(rect.width / pdfContainerRef.current.offsetWidth);
-  //     }
-  //   }
-  //   window.addEventListener("resize", updateDimensions);
-  //   updateDimensions();
-  //   return () => window.removeEventListener("resize", updateDimensions);
-  // }, []);
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     setStartPosition({ x: event.clientX, y: event.clientY });
@@ -70,14 +50,7 @@ export default ({ pdfFile }: Props) => {
           onMouseUp={handleMouseUp}
           style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "auto" }}>
           {regions.map((region, index) => (
-            <Region
-              key={index}
-              x={region.x}
-              y={region.y}
-              width={region.width}
-              height={region.height}
-              pageNumber={region.pageNumber}
-            />
+            <Region key={index} {...region} />
           ))}
           {isDrawing && currentRegion && (
             <div
