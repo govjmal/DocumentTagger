@@ -1,20 +1,14 @@
-import UploadPdfButton from "./upload-pdf-menu-item/uploadPdfMenuItem";
+import ExportConfigButton from "./export-config-button/exportConfigButton";
+import ImportConfigButton from "./import-config-button/import-config-button";
+import UploadPdfButton from "./upload-pdf-button/uploadPdfButton";
 
 export default function GeneralSettings() {
   return (
     <div>
       <ul className="menu-list">
-        <li>
-          <a>
-            <UploadPdfButton />
-          </a>
-        </li>
-        <li>
-          <a>Import config</a>
-        </li>
-        <li>
-          <a>Export config</a>
-        </li>
+        <UploadPdfButton />
+        <ImportConfigButton />
+        <ExportConfigButton />
       </ul>
     </div>
   );

@@ -1,17 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { useTaggablePdfStore } from "../taggablePdf.store";
 import { Props as DrawingRegionProps } from "./drawingRegion/drawingRegion";
-import { Props as RegionProps } from "./region/region";
-import { coordinatesForEvent } from "./region/regionHelper";
+import { coordinatesForEvent, getBaseX, getBaseY, getScrollXOffset, getScrollYOffset } from "./region/regionHelper";
 
 export default function useRegionCreator() {
-  const scrollContainer = useRef<HTMLDivElement>();
-  const [regions, setRegions] = useState<RegionProps[]>([]);
+  const regions = useTaggablePdfStore((x) => x.regions);
+  const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
   const [drawingRegion, setDrawingRegion] = useState<DrawingRegionProps | null>(null);
-
-  const getBaseX = () => scrollContainer.current.getBoundingClientRect().left;
-  const getBaseY = () => scrollContainer.current.getBoundingClientRect().top;
-  const getScrollXOffset = () => scrollContainer.current.scrollLeft;
-  const getScrollYOffset = () => scrollContainer.current.scrollTop;
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     setDrawingRegion({
@@ -37,8 +32,8 @@ export default function useRegionCreator() {
       const pageCoordinates = coordinatesForEvent(event);
 
       if (pageCoordinates)
-        setRegions((prevRegions) => [
-          ...prevRegions,
+        updateRegions([
+          ...regions,
           {
             x: drawingRegion.x,
             y: drawingRegion.y,
@@ -58,7 +53,6 @@ export default function useRegionCreator() {
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
-    scrollContainer,
     regions,
     drawingRegion,
   };

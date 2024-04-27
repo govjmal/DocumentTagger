@@ -8,11 +8,10 @@ interface Props {
 }
 
 export default ({ pdfFile }: Props) => {
-  const { handleMouseDown, handleMouseMove, handleMouseUp, scrollContainer, regions, drawingRegion } =
-    useRegionCreator();
+  const { handleMouseDown, handleMouseMove, handleMouseUp, regions, drawingRegion } = useRegionCreator();
 
   return (
-    <div style={{ overflowY: "scroll", maxHeight: "100vh" }} ref={scrollContainer}>
+    <div id="eb831180b1c3" style={{ overflowY: "scroll", maxHeight: "100vh" }}>
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
         <div>
           <PdfDisplay pdfFile={pdfFile} />

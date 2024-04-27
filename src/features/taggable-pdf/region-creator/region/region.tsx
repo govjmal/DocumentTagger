@@ -1,4 +1,4 @@
-export interface Props {
+export interface Region {
   x: number;
   y: number;
   width: number;
@@ -8,7 +8,7 @@ export interface Props {
   pageNumber: number;
 }
 
-export default ({ x, y, width, height, pdfX, pdfY, pageNumber }: Props) => {
+export default ({ x, y, width, height, pdfX, pdfY, pageNumber }: Region) => {
   return (
     <div
       style={{

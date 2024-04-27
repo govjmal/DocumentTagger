@@ -1,12 +1,16 @@
 import { PageClass } from "../../../pdf-display/constants/reactPdf";
+import { Region } from "./region";
 
 export type PageCoordinates = {
   pdfX: number;
   pdfY: number;
-  x: number;
-  y: number;
   pageNumber: number;
 };
+
+export const getBaseX = () => document.getElementById("eb831180b1c3").getBoundingClientRect().left;
+export const getBaseY = () => document.getElementById("eb831180b1c3").getBoundingClientRect().top;
+export const getScrollXOffset = () => document.getElementById("eb831180b1c3").scrollLeft;
+export const getScrollYOffset = () => document.getElementById("eb831180b1c3").scrollTop;
 
 export const coordinatesForEvent = (event: React.MouseEvent<HTMLDivElement>): PageCoordinates => {
   const allPages = [...document.querySelectorAll("." + PageClass)];
@@ -20,6 +24,18 @@ export const coordinatesForEvent = (event: React.MouseEvent<HTMLDivElement>): Pa
     const pdfX = event.clientX - pageRect.left;
     const pdfY = event.clientY - pageRect.top;
 
-    return { pdfX: pdfX, pdfY: pdfY, x: event.clientX, y: event.clientY, pageNumber: index + 1 };
+    return { pdfX: pdfX, pdfY: pdfY, pageNumber: index + 1 };
   }
+};
+
+export const createRegion = (region: Omit<Region, "x" | "y">): Region => {
+  const allPages = [...document.querySelectorAll("." + PageClass)];
+  const page = allPages[region.pageNumber - 1];
+  const pageRect = page.getBoundingClientRect();
+
+  return {
+    ...region,
+    x: region.pdfX + pageRect.left - getBaseX() + getScrollXOffset(),
+    y: region.pdfY + pageRect.top - getBaseY() + getScrollYOffset(),
+  };
 };
