@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Region } from "./region/region";
+import { Region } from "./types/region";
 
 type TaggabblePdfStore = {
   regions: Region[];

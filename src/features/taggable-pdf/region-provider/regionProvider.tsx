@@ -1,4 +1,4 @@
-import DrawingRegion from "../drawingRegion/drawingRegion";
+import DrawingRegion from "../drawing-region/drawingRegion";
 import Region from "../region/region";
 import useRegionProvider from "./useRegionProvider";
 
@@ -8,28 +8,25 @@ interface Props {
 
 export default function RegionProvider({ pageNumber }: Props) {
   const { handleMouseDown, handleMouseMove, handleMouseUp, regions, drawingRegion } = useRegionProvider(pageNumber);
-  const pageRegions = regions.filter((x) => x.pageNumber == pageNumber);
+  const pageRegions = regions.filter((x) => x.location.pageNumber == pageNumber);
 
-  if (pageRegions.length) console.log(pageRegions, pageRegions[0], pageRegions[1]);
   return (
-    <div>
-      <div
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "auto",
-        }}>
+    <>
+      <div onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} style={providerStyle}>
         {pageRegions.map((region, index) => (
-          <Region key={index} {...region} />
+          <Region key={index} region={region} />
         ))}
       </div>
       {drawingRegion && <DrawingRegion {...drawingRegion} />}
-    </div>
+    </>
   );
 }
+
+const providerStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  pointerEvents: "auto",
+};

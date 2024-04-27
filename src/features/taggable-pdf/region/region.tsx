@@ -1,43 +1,43 @@
-export interface Region {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  pageNumber: number;
+import { useState } from "react";
+import * as styles from "./region.styles";
+import ConfigModal from "./config-modal/configModal";
+import { Region } from "../types/region";
+
+interface Props {
+  region: Region;
 }
 
-export default ({ x, y, width, height, pageNumber }: Region) => {
+export default ({ region }: Props) => {
+  const { x, y, width, height, pageNumber } = region.location;
+  const [isFocused, setIsFocused] = useState(false);
+  const [configModalVisible, setConfigModalVisible] = useState(false);
+
+  const onClick = (e) => {
+    e.stopPropagation();
+    setConfigModalVisible(true);
+  };
+
   return (
     <div
-      style={{
-        position: "absolute",
-        left: x,
-        top: y,
-        width: width,
-        height: height,
-        border: "1px solid red",
-      }}>
+      onMouseDown={(e) => e.stopPropagation()}
+      onMouseMove={(e) => e.stopPropagation()}
+      onMouseUp={(e) => e.stopPropagation()}>
       <div
-        style={{
-          top: -8,
-          left: -1,
-          color: "white",
-          backgroundColor: "red",
-          padding: "2px",
-          fontSize: "8px",
-          position: "absolute",
-          width: width,
-          maxHeight: "16px",
-          overflow: "hidden",
-          pointerEvents: "auto",
-          cursor: "pointer",
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}>
-        {`X: ${x.toFixed(2)}, Y: ${y.toFixed(2)}, W: ${width}, H: ${height}, P: ${pageNumber}`}
+        onClick={onClick}
+        onMouseOver={() => setIsFocused(true)}
+        onMouseLeave={() => setIsFocused(false)}
+        style={styles.outlineContainerStyles(x, y, width, height)}>
+        {(isFocused || configModalVisible) && (
+          <div style={styles.focusPanelStyles(width)}>
+            <div style={styles.focusPanelRegionName}>{region.userFriendlyName}</div>
+            <div
+              style={
+                styles.focusPanelRegionLocation
+              }>{`X: ${x}, Y: ${y}, W: ${width}, H: ${height}, P: ${pageNumber}`}</div>
+          </div>
+        )}
       </div>
+      {configModalVisible && <ConfigModal region={region} onClose={() => setConfigModalVisible(false)} />}
     </div>
   );
 };

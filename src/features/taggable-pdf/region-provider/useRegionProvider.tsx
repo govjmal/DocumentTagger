@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTaggablePdfStore } from "../taggablePdf.store";
-import { Props as DrawingRegionProps } from "../drawingRegion/drawingRegion";
+import { Props as DrawingRegionProps } from "../drawing-region/drawingRegion";
 import {
   pdfCoordinatesForEvent,
   getScrollXOffset,
@@ -43,23 +43,27 @@ export default function useRegionProvider(pageNumber: number) {
   };
 
   const handleMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (drawingRegion && drawingRegion.height && drawingRegion.width) {
+    if (drawingRegion && drawingRegion.height > 15 && drawingRegion.width > 15) {
       const pageCoordinates = pdfCoordinatesForEvent(event, pageNumber);
 
       if (pageCoordinates)
         updateRegions([
           ...regions,
           {
-            x: drawingRegion.x,
-            y: drawingRegion.y,
-            width: drawingRegion.width,
-            height: drawingRegion.height,
-            pageNumber,
+            userFriendlyName: `Region ${regions.length + 1}`,
+            name: `page_${pageNumber}_region_${regions.length + 1}`,
+            location: {
+              x: drawingRegion.x,
+              y: drawingRegion.y,
+              width: drawingRegion.width,
+              height: drawingRegion.height,
+              pageNumber,
+            },
           },
         ]);
-
-      setDrawingRegion(null);
     }
+
+    setDrawingRegion(null);
   };
 
   return {

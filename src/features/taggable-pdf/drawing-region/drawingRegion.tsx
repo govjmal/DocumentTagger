@@ -8,10 +8,6 @@ export type Props = {
 export default function DrawingRegion(drawingRegion: Props) {
   return (
     <div
-      // onMouseUp={(e) => {
-      //   e.preventDefault();
-      //   e.stopPropagation();
-      // }}
       style={{
         position: "absolute",
         left: drawingRegion.x,
