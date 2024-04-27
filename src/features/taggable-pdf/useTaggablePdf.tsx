@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTaggablePdfStore } from "../taggablePdf.store";
+import { useTaggablePdfStore } from "./taggablePdf.store";
 import { Props as DrawingRegionProps } from "./drawingRegion/drawingRegion";
 import { coordinatesForEvent, getBaseX, getBaseY, getScrollXOffset, getScrollYOffset } from "./region/regionHelper";
 

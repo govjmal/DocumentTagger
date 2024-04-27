@@ -1,4 +1,4 @@
-import { PageClass } from "../../../pdf-display/constants/reactPdf";
+import { PageClass } from "../../pdf-display/constants/reactPdf";
 import { Region } from "./region";
 
 export type PageCoordinates = {

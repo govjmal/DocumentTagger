@@ -1,6 +1,5 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { usePdfDisplayStore } from "./pdfDisplay.store";
 
 // Enable PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -10,10 +9,6 @@ interface Props {
 }
 
 export default ({ pdfFile }: Props) => {
-  const setPdfRef = usePdfDisplayStore((x) => x.updatePdfRef);
-  const refCallback = useCallback((ref: HTMLDivElement) => {
-    setPdfRef(ref);
-  }, []);
   const [numPages, setNumPages] = useState<number>(0);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
@@ -33,7 +28,7 @@ export default ({ pdfFile }: Props) => {
     );
   }
   return (
-    <div ref={refCallback}>
+    <div>
       <Document
         file={pdfFile}
         onLoadSuccess={onDocumentLoadSuccess}

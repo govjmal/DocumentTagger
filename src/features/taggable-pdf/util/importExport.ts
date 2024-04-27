@@ -1,5 +1,5 @@
-import { Region } from "../region-creator/region/region";
-import { createRegion } from "../region-creator/region/regionHelper";
+import { Region } from "../region/region";
+import { createRegion } from "../region/regionHelper";
 
 type Configuration = {
   regions: ConfigurationRegion[];

@@ -18,7 +18,6 @@ export default ({ x, y, width, height, pdfX, pdfY, pageNumber }: Region) => {
         width: width,
         height: height,
         border: "1px solid red",
-        pointerEvents: "none", // Prevent region from capturing mouse events
       }}>
       <div
         style={{
@@ -29,9 +28,15 @@ export default ({ x, y, width, height, pdfX, pdfY, pageNumber }: Region) => {
           padding: "2px",
           fontSize: "8px",
           position: "absolute",
-          maxWidth: width,
+          width: width,
           maxHeight: "16px",
           overflow: "hidden",
+          pointerEvents: "auto",
+          cursor: "pointer",
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
         }}>
         {`X: ${pdfX.toFixed(2)}, Y: ${pdfY.toFixed(2)}, W: ${width}, H: ${height}, P: ${pageNumber}`}
       </div>
