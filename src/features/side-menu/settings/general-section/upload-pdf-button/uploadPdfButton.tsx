@@ -1,15 +1,15 @@
+import { useTaggablePdfStore } from "@/features/taggable-pdf/taggablePdf.store";
 import { useRef } from "react";
-import { useTaggablePdfStore } from "../../../../taggable-pdf/taggablePdf.store";
 
 export default function UploadPdfButton() {
   const updatePdf = useTaggablePdfStore((x) => x.updatePdfFile);
-  const fileInputRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (event: any) => {
+  const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const file = event.target.files[0];
     updatePdf(file);
   };

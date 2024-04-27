@@ -4,6 +4,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 interface Props {
   label: string;
   type: HTMLInputTypeAttribute;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   register: () => UseFormRegisterReturn<any>;
 }
 
