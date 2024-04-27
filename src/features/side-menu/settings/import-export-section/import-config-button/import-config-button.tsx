@@ -1,6 +1,6 @@
-import { useTaggablePdfStore } from "../../../taggable-pdf/taggablePdf.store";
+import { useTaggablePdfStore } from "../../../../taggable-pdf/taggablePdf.store";
 import * as bulmaToast from "bulma-toast";
-import { FromConfiguration } from "../../../taggable-pdf/util/importExport";
+import { FromConfiguration } from "../../../../taggable-pdf/util/importExport";
 
 export default function ImportConfigButton() {
   const pdfFile = useTaggablePdfStore((x) => x.pdfFile);

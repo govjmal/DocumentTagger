@@ -1,6 +1,6 @@
-import { useTaggablePdfStore } from "../../../taggable-pdf/taggablePdf.store";
+import { useTaggablePdfStore } from "../../../../taggable-pdf/taggablePdf.store";
 import * as bulmaToast from "bulma-toast";
-import { ToConfiguration } from "../../../taggable-pdf/util/importExport";
+import { ToConfiguration } from "../../../../taggable-pdf/util/importExport";
 
 export default function ExportConfigButton() {
   const pdfFile = useTaggablePdfStore((x) => x.pdfFile);
@@ -14,7 +14,7 @@ export default function ExportConfigButton() {
   if (!pdfFile || !regions?.length) return <></>;
   return (
     <li>
-      <a>
+      <a className="is-active">
         <div onClick={() => onCopyToClipboard()}>Export config</div>
       </a>
     </li>
