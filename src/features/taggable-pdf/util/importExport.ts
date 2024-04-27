@@ -1,5 +1,4 @@
 import { Region } from "../region/region";
-import { createRegion } from "../region/regionHelper";
 
 type Configuration = {
   regions: ConfigurationRegion[];
@@ -17,8 +16,8 @@ export const ToConfiguration = (regions: Region[]): Configuration => {
   return {
     regions: regions.map((region) => {
       return {
-        x: region.pdfX,
-        y: region.pdfY,
+        x: region.x,
+        y: region.y,
         width: region.width,
         height: region.height,
         page: region.pageNumber,
@@ -31,12 +30,12 @@ export const FromConfiguration = (configurationJson: string): Region[] => {
   const configuration: Configuration = JSON.parse(configurationJson);
 
   return configuration.regions.map((config) => {
-    return createRegion({
-      pdfX: config.x,
-      pdfY: config.y,
+    return {
+      x: config.x,
+      y: config.y,
       width: config.width,
       height: config.height,
       pageNumber: config.page,
-    });
+    };
   });
 };

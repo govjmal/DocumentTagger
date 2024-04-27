@@ -6,9 +6,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 interface Props {
   pdfFile: File;
+  pageContent: ({ pageNumber }) => React.ReactNode;
 }
 
-export default ({ pdfFile }: Props) => {
+export default ({ pdfFile, pageContent: PageContent }: Props) => {
   const [numPages, setNumPages] = useState<number>(0);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
@@ -24,7 +25,9 @@ export default ({ pdfFile }: Props) => {
         renderTextLayer={false}
         renderAnnotationLayer={false}
         width={800}
-        className="mt-6"></Page>
+        className="mt-6">
+        <PageContent pageNumber={i} />
+      </Page>
     );
   }
   return (

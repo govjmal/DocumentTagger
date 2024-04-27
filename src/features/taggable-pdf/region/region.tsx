@@ -3,12 +3,10 @@ export interface Region {
   y: number;
   width: number;
   height: number;
-  pdfX: number;
-  pdfY: number;
   pageNumber: number;
 }
 
-export default ({ x, y, width, height, pdfX, pdfY, pageNumber }: Region) => {
+export default ({ x, y, width, height, pageNumber }: Region) => {
   return (
     <div
       style={{
@@ -38,7 +36,7 @@ export default ({ x, y, width, height, pdfX, pdfY, pageNumber }: Region) => {
           e.preventDefault();
           e.stopPropagation();
         }}>
-        {`X: ${pdfX.toFixed(2)}, Y: ${pdfY.toFixed(2)}, W: ${width}, H: ${height}, P: ${pageNumber}`}
+        {`X: ${x.toFixed(2)}, Y: ${y.toFixed(2)}, W: ${width}, H: ${height}, P: ${pageNumber}`}
       </div>
     </div>
   );
