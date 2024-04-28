@@ -1,19 +1,19 @@
 import { useState } from "react";
-import * as styles from "./region.styles";
+import { Field, Region } from "../types/region";
 import ConfigModal from "./config-modal/configModal";
-import { Region } from "../types/region";
+import * as styles from "./field.styles";
 import TopPanel from "./top-panel/topPanel";
-import RightPanel from "./right-panel/rightPanel";
 import { useTaggablePdfStore } from "../taggablePdf.store";
 
 interface Props {
   region: Region;
+  field: Field;
 }
 
-export default ({ region }: Props) => {
+export default ({ region, field }: Props) => {
   const regions = useTaggablePdfStore((x) => x.regions);
   const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
-  const { x, y, width, height } = region.location;
+  const { x, y, width, height } = field.location;
   const [configModalVisible, setConfigModalVisible] = useState(false);
 
   const onClick = (e) => {
@@ -40,8 +40,7 @@ export default ({ region }: Props) => {
         style={styles.outlineContainerStyles(x, y, width, height, showDetails)}>
         {showDetails && (
           <>
-            <TopPanel {...region} colour="hsl(18, 100%, 29%)" />
-            <RightPanel region={region} />
+            <TopPanel {...field} colour="hsl(233, 100%, 29%)" />
           </>
         )}
       </div>

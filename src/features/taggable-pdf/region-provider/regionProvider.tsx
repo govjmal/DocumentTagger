@@ -1,4 +1,5 @@
 import DrawingRegion from "../drawing-region/drawingRegion";
+import Field from "../region/field";
 import Region from "../region/region";
 import useRegionProvider from "./useRegionProvider";
 
@@ -13,8 +14,13 @@ export default function RegionProvider({ pageNumber }: Props) {
   return (
     <>
       <div onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} style={providerStyle}>
-        {pageRegions.map((region, index) => (
-          <Region key={index} region={region} />
+        {pageRegions.map((region, i) => (
+          <>
+            <Region key={i} region={region} />
+            {region.fields.map((field, y) => {
+              return <Field key={"field_" + y} region={region} field={field} />;
+            })}
+          </>
         ))}
       </div>
       {drawingRegion && <DrawingRegion {...drawingRegion} />}
@@ -28,5 +34,5 @@ const providerStyle: React.CSSProperties = {
   left: 0,
   width: "100%",
   height: "100%",
-  pointerEvents: "auto",
+  pointerEvents: "auto"
 };

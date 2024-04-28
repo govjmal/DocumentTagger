@@ -3,6 +3,8 @@ export type Region = {
   id?: string;
   keywords?: string;
   location: Location;
+  fields?: Field[];
+  isActive?: boolean;
 };
 
 type Location = {
@@ -11,4 +13,10 @@ type Location = {
   width: number;
   height: number;
   pageNumber: number;
+};
+
+export type Field = {
+  userFriendlyName?: string;
+  id?: string;
+  location: Omit<Location, "pageNumber">;
 };

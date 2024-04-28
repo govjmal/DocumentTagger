@@ -4,15 +4,15 @@ type Configuration = {
   regions: ConfigurationRegion[];
 };
 
-type ConfigurationRegion = Region;
+type ConfigurationRegion = Omit<Region, "isActive">;
 
 export const ToConfiguration = (regions: Region[]): Configuration => {
   return {
     regions: regions.map((region) => {
       return {
-        ...region,
+        ...region
       };
-    }),
+    })
   };
 };
 
