@@ -7,7 +7,7 @@ import {
   getScrollYOffset,
   getPage,
   getPageBaseX,
-  getPageBaseY,
+  getPageBaseY
 } from "../region/regionHelper";
 
 export default function useRegionProvider(pageNumber: number) {
@@ -24,7 +24,7 @@ export default function useRegionProvider(pageNumber: number) {
       x: event.clientX - baseXOffset + getScrollXOffset(),
       y: event.clientY - baseYOffset + getScrollYOffset(),
       width: drawingRegion?.width,
-      height: drawingRegion?.height,
+      height: drawingRegion?.height
     });
   };
 
@@ -37,7 +37,7 @@ export default function useRegionProvider(pageNumber: number) {
       setDrawingRegion({
         ...drawingRegion,
         width: event.clientX - drawingRegion.x - baseXOffset + getScrollXOffset(),
-        height: event.clientY - drawingRegion.y - baseYOffset + getScrollYOffset(),
+        height: event.clientY - drawingRegion.y - baseYOffset + getScrollYOffset()
       });
     }
   };
@@ -51,15 +51,15 @@ export default function useRegionProvider(pageNumber: number) {
           ...regions,
           {
             userFriendlyName: `Region ${regions.length + 1}`,
-            name: `page_${pageNumber}_region_${regions.length + 1}`,
+            id: `page_${pageNumber}_region_${regions.length + 1}`,
             location: {
               x: drawingRegion.x,
               y: drawingRegion.y,
               width: drawingRegion.width,
               height: drawingRegion.height,
-              pageNumber,
-            },
-          },
+              pageNumber
+            }
+          }
         ]);
     }
 
@@ -71,6 +71,6 @@ export default function useRegionProvider(pageNumber: number) {
     handleMouseMove,
     handleMouseUp,
     regions,
-    drawingRegion,
+    drawingRegion
   };
 }

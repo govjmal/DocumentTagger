@@ -9,8 +9,9 @@ export default function ConfigForm() {
   return (
     <div>
       <h5 className="subtitle is-5">Meta</h5>
-      <Input type="text" label="Friendly" register={() => register("userFriendlyName")} />
-      <Input type="text" label="Name" register={() => register("name")} />
+      <Input type="text" label="Friendly name" placeholder="Field Name" register={() => register("userFriendlyName")} />
+      <Input type="text" label="Id" placeholder="field_name" register={() => register("id")} />
+      <Input type="text" label="Text to match" placeholder="Text in region" register={() => register("keywords")} />
 
       <h5 className="subtitle is-5">Location</h5>
       <Input type="number" label="X" register={() => register("location.x", { valueAsNumber: true })} />

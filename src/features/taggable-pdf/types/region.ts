@@ -1,6 +1,7 @@
 export type Region = {
   userFriendlyName?: string;
-  name?: string;
+  id?: string;
+  keywords?: string;
   location: Location;
 };
 
