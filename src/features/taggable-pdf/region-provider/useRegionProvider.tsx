@@ -12,6 +12,7 @@ import {
 
 export default function useRegionProvider(pageNumber: number) {
   const regions = useTaggablePdfStore((x) => x.regions);
+  const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
   const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
   const [drawingRegion, setDrawingRegion] = useState<DrawingRegionProps | null>(null);
 
@@ -43,7 +44,7 @@ export default function useRegionProvider(pageNumber: number) {
   };
 
   const handleMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (drawingRegion && drawingRegion.height > 15 && drawingRegion.width > 15) {
+    if (drawingRegion && drawingRegion.height > 10 && drawingRegion.width > 15) {
       const pageCoordinates = pdfCoordinatesForEvent(event, pageNumber);
 
       if (pageCoordinates)
@@ -67,10 +68,20 @@ export default function useRegionProvider(pageNumber: number) {
     setDrawingRegion(null);
   };
 
+  const handleClick = () => {
+    const activeRegions = regions.filter((x) => x.isActive);
+    if (!activeRegions.length) return;
+
+    activeRegions.forEach((region) => {
+      updateRegion(region, { isActive: false });
+    });
+  };
+
   return {
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
+    handleClick,
     regions,
     drawingRegion
   };

@@ -36,6 +36,8 @@ export const useTaggablePdfStore = create<TaggabblePdfStore>((set) => ({
       const index = state.regions.findIndex((x) => x === region);
       const regions = state.regions;
 
+      if (!region.isActive && newValues.isActive) regions.forEach((x) => (x.isActive = false));
+
       regions.splice(index, 1, newRegion);
 
       return {

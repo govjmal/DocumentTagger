@@ -8,12 +8,18 @@ interface Props {
 }
 
 export default function RegionProvider({ pageNumber }: Props) {
-  const { handleMouseDown, handleMouseMove, handleMouseUp, regions, drawingRegion } = useRegionProvider(pageNumber);
+  const { handleMouseDown, handleMouseMove, handleMouseUp, handleClick, regions, drawingRegion } =
+    useRegionProvider(pageNumber);
   const pageRegions = regions.filter((x) => x.location.pageNumber == pageNumber);
 
   return (
     <>
-      <div onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} style={providerStyle}>
+      <div
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onClick={handleClick}
+        style={providerStyle}>
         {pageRegions.map((region, i) => (
           <div key={i}>
             <Region region={region} />
