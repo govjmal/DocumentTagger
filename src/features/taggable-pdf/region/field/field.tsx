@@ -1,4 +1,4 @@
-import { EventSuppressedDiv, TopRightPencilButton } from "@/components";
+import { EventSuppressedDiv, PencilEditButton } from "@/components";
 import { useState } from "react";
 import { useTaggablePdfStore } from "../../taggablePdf.store";
 import { Field, Region } from "../../types/region";
@@ -21,15 +21,19 @@ export default ({ region, field }: Props) => {
       <div
         onMouseDown={() => {
           updateRegion(region, {
+            isActive: true,
             fields: [...region.fields.filter((x) => x !== field), { ...field, isDragging: true }]
           });
         }}
-        onClick={() => updateRegion(region, { isActive: !region.isActive })}
+        onClick={() => updateRegion(region, { isActive: true })}
         style={styles.outlineContainerStyles(x, y, width, height, region, field)}>
         {region.isActive && (
           <>
-            <TopRightPencilButton onClick={() => setConfigModalVisible(true)} />
-            <TopPanel {...field} colour="hsl(233, 100%, 29%)" />
+            <TopPanel
+              {...field}
+              colour="hsl(203, 100%, 39%)"
+              actionsComponent={<PencilEditButton onClick={() => setConfigModalVisible(true)} />}
+            />
           </>
         )}
       </div>

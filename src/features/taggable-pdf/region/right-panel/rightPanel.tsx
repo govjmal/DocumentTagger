@@ -11,7 +11,7 @@ export default function RightPanel({ region }: { region: Region }) {
 
   const onAddField = () => {
     region.fields.push({
-      userFriendlyName: `Region ${regions.length + 1} value`,
+      userFriendlyName: `Field ${regions.length + 1} value`,
       id: `page_${region.location.pageNumber}_region_${regions.length + 1}_field_${fields.length + 1}`,
       location: { ...region.location, x: region.location.x + region.location.width + 10 }
     });

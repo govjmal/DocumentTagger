@@ -1,4 +1,4 @@
-import { EventSuppressedDiv, TopRightPencilButton } from "@/components";
+import { EventSuppressedDiv, PencilEditButton } from "@/components";
 import { useState } from "react";
 import { useTaggablePdfStore } from "../taggablePdf.store";
 import { Region } from "../types/region";
@@ -6,7 +6,6 @@ import ConfigModal from "./config-modal/configModal";
 import * as styles from "./region.styles";
 import RightPanel from "./right-panel/rightPanel";
 import TopPanel from "./top-panel/topPanel";
-import { regionHasFullDetails } from "./helpers/regionValidator";
 
 interface Props {
   region: Region;
@@ -20,13 +19,16 @@ export default ({ region }: Props) => {
   return (
     <EventSuppressedDiv allowMouseMove allowMouseUp>
       <div
-        onMouseDown={() => updateRegion(region, { isDragging: true })}
-        onClick={() => updateRegion(region, { isActive: !region.isActive })}
+        onMouseDown={() => updateRegion(region, { isDragging: true, isActive: true })}
+        onClick={() => updateRegion(region, { isActive: true })}
         style={styles.outlineContainerStyles(x, y, width, height, region)}>
         {region.isActive && (
           <>
-            <TopRightPencilButton onClick={() => setConfigModalVisible(true)} />
-            <TopPanel {...region} colour="hsl(18, 100%, 29%)" />
+            <TopPanel
+              {...region}
+              colour="hsl(88, 100%, 29%)"
+              actionsComponent={<PencilEditButton onClick={() => setConfigModalVisible(true)} />}
+            />
             <div style={styles.rightPanelContainer(width)}>
               <RightPanel region={region} />
             </div>

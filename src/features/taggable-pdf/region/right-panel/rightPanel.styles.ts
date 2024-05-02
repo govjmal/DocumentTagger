@@ -23,7 +23,7 @@ export const addFieldButton: React.CSSProperties = {
   alignItems: "center",
   left: 10,
   color: "white",
-  backgroundColor: "hsl(131, 41%, 48%)",
+  backgroundColor: "hsl(220, 71%, 48%)",
   padding: "0px 4px",
   position: "relative",
   width: "90px",
