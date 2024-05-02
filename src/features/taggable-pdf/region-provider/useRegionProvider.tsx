@@ -15,6 +15,8 @@ export default function useRegionProvider(pageNumber: number) {
   const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
   const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
   const [drawingRegion, setDrawingRegion] = useState<DrawingRegionProps | null>(null);
+  const draggingRegion = regions.find((x) => x.isDragging);
+  const draggingField = regions.map((x) => x.fields.find((f) => f.isDragging)).filter((x) => !!x)[0];
 
   const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
     const page = getPage(pageNumber);
@@ -30,16 +32,42 @@ export default function useRegionProvider(pageNumber: number) {
   };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (drawingRegion) {
+    if (drawingRegion || draggingRegion || draggingField) {
       const page = getPage(pageNumber);
       const baseXOffset = getPageBaseX(page);
       const baseYOffset = getPageBaseY(page);
 
-      setDrawingRegion({
-        ...drawingRegion,
-        width: event.clientX - drawingRegion.x - baseXOffset + getScrollXOffset(),
-        height: event.clientY - drawingRegion.y - baseYOffset + getScrollYOffset()
-      });
+      if (drawingRegion) {
+        setDrawingRegion({
+          ...drawingRegion,
+          width: event.clientX - drawingRegion.x - baseXOffset + getScrollXOffset(),
+          height: event.clientY - drawingRegion.y - baseYOffset + getScrollYOffset()
+        });
+      } else if (draggingRegion) {
+        updateRegion(draggingRegion, {
+          location: {
+            ...draggingRegion.location,
+            x: event.clientX - baseXOffset + getScrollXOffset() + 5,
+            y: event.clientY - baseYOffset + getScrollYOffset() + 5
+          }
+        });
+      } else if (draggingField) {
+        const region = regions.find((x) => x.fields.some((f) => f == draggingField));
+
+        updateRegion(region, {
+          fields: [
+            ...region.fields.filter((x) => x !== draggingField),
+            {
+              ...draggingField,
+              location: {
+                ...draggingField.location,
+                x: event.clientX - baseXOffset + getScrollXOffset() + 5,
+                y: event.clientY - baseYOffset + getScrollYOffset() + 5
+              }
+            }
+          ]
+        });
+      }
     }
   };
 
@@ -65,7 +93,14 @@ export default function useRegionProvider(pageNumber: number) {
         ]);
     }
 
-    setDrawingRegion(null);
+    if (drawingRegion) setDrawingRegion(null);
+    if (draggingRegion) updateRegion(draggingRegion, { isDragging: false });
+    if (draggingField) {
+      const region = regions.find((x) => x.fields.some((f) => f === draggingField));
+      updateRegion(region, {
+        fields: [...region.fields.filter((x) => x !== draggingField), { ...draggingField, isDragging: false }]
+      });
+    }
   };
 
   const handleClick = () => {

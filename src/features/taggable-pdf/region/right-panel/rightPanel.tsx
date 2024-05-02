@@ -5,7 +5,7 @@ import { useTaggablePdfStore } from "../../taggablePdf.store";
 
 export default function RightPanel({ region }: { region: Region }) {
   const regions = useTaggablePdfStore((x) => x.regions);
-  const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
+  const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
   const { height } = region.location;
   const fields = region.fields;
 
@@ -16,7 +16,7 @@ export default function RightPanel({ region }: { region: Region }) {
       location: { ...region.location, x: region.location.x + region.location.width + 10 }
     });
 
-    updateRegions([...regions]);
+    updateRegion(region, { fields: region.fields });
   };
 
   if (fields.length) return <></>;

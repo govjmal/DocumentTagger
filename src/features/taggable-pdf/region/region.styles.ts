@@ -1,11 +1,16 @@
+import { Region } from "../types/region";
+import { regionHasFullDetails } from "./helpers/regionValidator";
+
 export const outlineContainerStyles = (
   x: number,
   y: number,
   width: number,
   height: number,
-  isFocused: boolean,
-  isConfigured: boolean
+  region: Region
 ): React.CSSProperties => {
+  const isActive = region.isActive;
+  const isConfigured = regionHasFullDetails(region);
+
   return {
     position: "absolute",
     left: x,
@@ -15,7 +20,7 @@ export const outlineContainerStyles = (
     border: isConfigured ? "1px solid darkgreen" : "1px solid red",
     pointerEvents: "auto",
     cursor: "pointer",
-    boxShadow: isFocused ? "0 0 14px #9ecaed" : "none",
+    boxShadow: isActive ? "0 0 14px #9ecaed" : "none",
     backgroundColor: isConfigured ? "rgba(100, 100, 0, 0.1)" : "rgba(255, 0, 0, 0.1)"
   };
 };

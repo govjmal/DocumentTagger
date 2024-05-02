@@ -5,7 +5,6 @@ import { Field, Region } from "../../types/region";
 import ConfigModal from "../config-modal/configModal";
 import TopPanel from "../top-panel/topPanel";
 import * as styles from "./field.styles";
-import { fieldHasFullDetails } from "../helpers/regionValidator";
 
 interface Props {
   region: Region;
@@ -18,10 +17,15 @@ export default ({ region, field }: Props) => {
   const [configModalVisible, setConfigModalVisible] = useState(false);
 
   return (
-    <EventSuppressedDiv>
+    <EventSuppressedDiv allowMouseMove allowMouseUp>
       <div
+        onMouseDown={() => {
+          updateRegion(region, {
+            fields: [...region.fields.filter((x) => x !== field), { ...field, isDragging: true }]
+          });
+        }}
         onClick={() => updateRegion(region, { isActive: !region.isActive })}
-        style={styles.outlineContainerStyles(x, y, width, height, region.isActive, fieldHasFullDetails(field))}>
+        style={styles.outlineContainerStyles(x, y, width, height, region, field)}>
         {region.isActive && (
           <>
             <TopRightPencilButton onClick={() => setConfigModalVisible(true)} />

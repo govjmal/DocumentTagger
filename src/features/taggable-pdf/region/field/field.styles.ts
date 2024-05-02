@@ -1,11 +1,17 @@
+import { Field, Region } from "../../types/region";
+import { fieldHasFullDetails } from "../helpers/regionValidator";
+
 export const outlineContainerStyles = (
   x: number,
   y: number,
   width: number,
   height: number,
-  isFocused: boolean,
-  isConfigured: boolean
+  region: Region,
+  field: Field
 ): React.CSSProperties => {
+  const isActive = region.isActive;
+  const isConfigured = fieldHasFullDetails(field);
+
   return {
     position: "absolute",
     left: x,
@@ -16,6 +22,6 @@ export const outlineContainerStyles = (
     border: "1px solid blue",
     pointerEvents: "auto",
     cursor: "pointer",
-    boxShadow: isFocused ? "0 0 14px #9ecaed" : "none"
+    boxShadow: isActive ? "0 0 14px #9ecaed" : "none"
   };
 };

@@ -30,7 +30,7 @@ export const useTaggablePdfStore = create<TaggabblePdfStore>((set) => ({
 
   updateRegion: (region: Region, newValues: OptionalProperties<Region>) => {
     set((state) => {
-      if (JSON.stringify(region) === JSON.stringify(newValues)) return;
+      if (JSON.stringify(region) === JSON.stringify(newValues)) return state;
 
       const newRegion = { ...region, ...newValues };
       const index = state.regions.findIndex((x) => x === region);

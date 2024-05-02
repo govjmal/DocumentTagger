@@ -18,10 +18,11 @@ export default ({ region }: Props) => {
   const [configModalVisible, setConfigModalVisible] = useState(false);
 
   return (
-    <EventSuppressedDiv>
+    <EventSuppressedDiv allowMouseMove allowMouseUp>
       <div
+        onMouseDown={() => updateRegion(region, { isDragging: true })}
         onClick={() => updateRegion(region, { isActive: !region.isActive })}
-        style={styles.outlineContainerStyles(x, y, width, height, region.isActive, regionHasFullDetails(region))}>
+        style={styles.outlineContainerStyles(x, y, width, height, region)}>
         {region.isActive && (
           <>
             <TopRightPencilButton onClick={() => setConfigModalVisible(true)} />

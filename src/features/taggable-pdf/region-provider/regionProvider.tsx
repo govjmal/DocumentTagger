@@ -1,6 +1,7 @@
 import DrawingRegion from "../drawing-region/drawingRegion";
 import Field from "../region/field/field";
 import Region from "../region/region";
+import { Region as RegionType } from "../types/region";
 import useRegionProvider from "./useRegionProvider";
 
 interface Props {
@@ -19,7 +20,7 @@ export default function RegionProvider({ pageNumber }: Props) {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onClick={handleClick}
-        style={providerStyle}>
+        style={providerStyle(pageRegions)}>
         {pageRegions.map((region, i) => (
           <div key={i}>
             <Region region={region} />
@@ -34,11 +35,14 @@ export default function RegionProvider({ pageNumber }: Props) {
   );
 }
 
-const providerStyle: React.CSSProperties = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  pointerEvents: "auto"
+const providerStyle = (regions: RegionType[]): React.CSSProperties => {
+  return {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    pointerEvents: "auto",
+    cursor: regions.some((x) => x.isDragging || x.fields.some((f) => f.isDragging)) ? "move" : "auto"
+  };
 };

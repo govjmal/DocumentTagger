@@ -5,6 +5,7 @@ export type Region = {
   location: Location;
   fields?: Field[];
   isActive?: boolean;
+  isDragging?: boolean;
 };
 
 type Location = {
@@ -19,4 +20,5 @@ export type Field = {
   userFriendlyName?: string;
   id?: string;
   location: Omit<Location, "pageNumber">;
+  isDragging?: boolean;
 };
