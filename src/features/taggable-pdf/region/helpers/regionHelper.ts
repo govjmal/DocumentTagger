@@ -1,4 +1,6 @@
-import { PageClass } from "../../pdf-display/constants/reactPdf";
+import { PageClass } from "../../../pdf-display/constants/reactPdf";
+import { Field, Region } from "../../types/region";
+import region from "../region";
 
 export const getPage = (pageNumber: number) => [...document.querySelectorAll("." + PageClass)][pageNumber - 1];
 

@@ -1,5 +1,5 @@
 import DrawingRegion from "../drawing-region/drawingRegion";
-import Field from "../region/field";
+import Field from "../region/field/field";
 import Region from "../region/region";
 import useRegionProvider from "./useRegionProvider";
 
@@ -15,12 +15,12 @@ export default function RegionProvider({ pageNumber }: Props) {
     <>
       <div onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} style={providerStyle}>
         {pageRegions.map((region, i) => (
-          <>
-            <Region key={i} region={region} />
+          <div key={i}>
+            <Region region={region} />
             {region.fields.map((field, y) => {
               return <Field key={"field_" + y} region={region} field={field} />;
             })}
-          </>
+          </div>
         ))}
       </div>
       {drawingRegion && <DrawingRegion {...drawingRegion} />}

@@ -8,7 +8,7 @@ import {
   getPage,
   getPageBaseX,
   getPageBaseY
-} from "../region/regionHelper";
+} from "../region/helpers/regionHelper";
 
 export default function useRegionProvider(pageNumber: number) {
   const regions = useTaggablePdfStore((x) => x.regions);

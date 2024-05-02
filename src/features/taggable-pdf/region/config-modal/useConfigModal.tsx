@@ -6,22 +6,18 @@ import { ConfigFormFields } from "./config-form/configForm";
 
 export default function useConfigModal(region: Region, onClose: () => void) {
   const formMethods = useForm<ConfigFormFields>({ defaultValues: region });
-  const regions = useTaggablePdfStore((x) => x.regions);
-  const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
+  const removeRegion = useTaggablePdfStore((x) => x.removeRegion);
+  const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
 
   const onDelete = () => {
+    removeRegion(region);
+
     bulmaToast.toast({ message: "Region removed", type: "is-info", duration: 5000 });
-    const updatedRegions = regions.filter((x) => x != region);
-    updateRegions(updatedRegions);
     onClose();
   };
 
   const onSave: SubmitHandler<Region> = (data) => {
-    const regionToUpdateIndex = regions.findIndex((x) => x == region);
-
-    const newRegions = [...regions];
-    newRegions.splice(regionToUpdateIndex, 1, JSON.parse(JSON.stringify(data)));
-    updateRegions(newRegions);
+    updateRegion(region, JSON.parse(JSON.stringify(data)));
 
     bulmaToast.toast({ message: "Region updated", type: "is-success", duration: 5000 });
     onClose();

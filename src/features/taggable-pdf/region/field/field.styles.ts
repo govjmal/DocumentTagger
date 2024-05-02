@@ -3,7 +3,8 @@ export const outlineContainerStyles = (
   y: number,
   width: number,
   height: number,
-  isFocused: boolean
+  isFocused: boolean,
+  isConfigured: boolean
 ): React.CSSProperties => {
   return {
     position: "absolute",
@@ -11,6 +12,7 @@ export const outlineContainerStyles = (
     top: y,
     width: width,
     height: height,
+    backgroundColor: isConfigured ? "rgba(0, 0, 200, 0.1)" : "rgba(255, 0, 0, 0.1)",
     border: "1px solid blue",
     pointerEvents: "auto",
     cursor: "pointer",

@@ -1,51 +1,38 @@
+import { EventSuppressedDiv, TopRightPencilButton } from "@/components";
 import { useState } from "react";
-import * as styles from "./region.styles";
-import ConfigModal from "./config-modal/configModal";
-import { Region } from "../types/region";
-import TopPanel from "./top-panel/topPanel";
-import RightPanel from "./right-panel/rightPanel";
 import { useTaggablePdfStore } from "../taggablePdf.store";
+import { Region } from "../types/region";
+import ConfigModal from "./config-modal/configModal";
+import * as styles from "./region.styles";
+import RightPanel from "./right-panel/rightPanel";
+import TopPanel from "./top-panel/topPanel";
+import { regionHasFullDetails } from "./helpers/regionValidator";
 
 interface Props {
   region: Region;
 }
 
 export default ({ region }: Props) => {
-  const regions = useTaggablePdfStore((x) => x.regions);
-  const updateRegions = useTaggablePdfStore((x) => x.updateRegions);
   const { x, y, width, height } = region.location;
+  const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
   const [configModalVisible, setConfigModalVisible] = useState(false);
 
-  const onClick = (e) => {
-    e.stopPropagation();
-    setConfigModalVisible(true);
-  };
-
-  const showDetails = region.isActive || configModalVisible;
   return (
-    <div
-      onMouseDown={(e) => e.stopPropagation()}
-      onMouseMove={(e) => e.stopPropagation()}
-      onMouseUp={(e) => e.stopPropagation()}>
+    <EventSuppressedDiv>
       <div
-        onClick={onClick}
-        onMouseOver={() => {
-          region.isActive = true;
-          updateRegions([...regions]);
-        }}
-        onMouseLeave={() => {
-          region.isActive = false;
-          updateRegions([...regions]);
-        }}
-        style={styles.outlineContainerStyles(x, y, width, height, showDetails)}>
-        {showDetails && (
+        onClick={() => updateRegion(region, { isActive: !region.isActive })}
+        style={styles.outlineContainerStyles(x, y, width, height, region.isActive, regionHasFullDetails(region))}>
+        {region.isActive && (
           <>
+            <TopRightPencilButton onClick={() => setConfigModalVisible(true)} />
             <TopPanel {...region} colour="hsl(18, 100%, 29%)" />
-            <RightPanel region={region} />
+            <div style={styles.rightPanelContainer(width)}>
+              <RightPanel region={region} />
+            </div>
           </>
         )}
       </div>
       {configModalVisible && <ConfigModal region={region} onClose={() => setConfigModalVisible(false)} />}
-    </div>
+    </EventSuppressedDiv>
   );
 };
