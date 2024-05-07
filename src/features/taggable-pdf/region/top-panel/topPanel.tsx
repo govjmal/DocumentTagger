@@ -24,6 +24,7 @@ export default function TopPanel({ userFriendlyName, location, colour, actionsCo
         top: -panelHeight,
         height: panelHeight,
         left: -1,
+
         color: "white",
         backgroundColor: colour,
         padding: "0px 4px",

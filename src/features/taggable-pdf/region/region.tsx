@@ -1,8 +1,8 @@
 import { EventSuppressedDiv, PencilEditButton } from "@/components";
 import { useState } from "react";
-import { useTaggablePdfStore } from "../taggablePdf.store";
 import { Region } from "../types/region";
 import ConfigModal from "./config-modal/configModal";
+import MoveableResizable from "./moveable-resizable/moveableResizable";
 import * as styles from "./region.styles";
 import RightPanel from "./right-panel/rightPanel";
 import TopPanel from "./top-panel/topPanel";
@@ -13,15 +13,12 @@ interface Props {
 
 export default ({ region }: Props) => {
   const { x, y, width, height } = region.location;
-  const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
+
   const [configModalVisible, setConfigModalVisible] = useState(false);
 
   return (
     <EventSuppressedDiv allowMouseMove allowMouseUp>
-      <div
-        onMouseDown={() => updateRegion(region, { isDragging: true, isActive: true })}
-        onClick={() => updateRegion(region, { isActive: true })}
-        style={styles.outlineContainerStyles(x, y, width, height, region)}>
+      <MoveableResizable region={region} style={styles.outlineContainerStyles(x, y, width, height, region)}>
         {region.isActive && (
           <>
             <TopPanel
@@ -34,7 +31,7 @@ export default ({ region }: Props) => {
             </div>
           </>
         )}
-      </div>
+      </MoveableResizable>
       {configModalVisible && <ConfigModal region={region} onClose={() => setConfigModalVisible(false)} />}
     </EventSuppressedDiv>
   );

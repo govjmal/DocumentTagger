@@ -1,14 +1,15 @@
-export type Region = {
+import { VisuallyModifiable } from "./visuallyModifiable";
+
+export type Region = VisuallyModifiable & {
   userFriendlyName?: string;
   id?: string;
   keywords?: string;
   location: Location;
   fields?: Field[];
   isActive?: boolean;
-  isDragging?: boolean;
 };
 
-type Location = {
+export type Location = {
   x: number;
   y: number;
   width: number;
@@ -16,9 +17,8 @@ type Location = {
   pageNumber: number;
 };
 
-export type Field = {
+export type Field = VisuallyModifiable & {
   userFriendlyName?: string;
   id?: string;
   location: Omit<Location, "pageNumber">;
-  isDragging?: boolean;
 };

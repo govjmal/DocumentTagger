@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { Region } from "./types/region";
 import { OptionalProperties } from "./types/optional";
+import { Region } from "./types/region";
 
 type TaggabblePdfStore = {
   regions: Region[];
@@ -36,6 +36,7 @@ export const useTaggablePdfStore = create<TaggabblePdfStore>((set) => ({
       const index = state.regions.findIndex((x) => x === region);
       const regions = state.regions;
 
+      if (index == -1) return state;
       if (!region.isActive && newValues.isActive) regions.forEach((x) => (x.isActive = false));
 
       regions.splice(index, 1, newRegion);
