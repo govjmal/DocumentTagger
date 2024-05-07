@@ -21,7 +21,7 @@ export const outlineContainerStyles = (
     backgroundColor: isConfigured ? "rgba(0, 0, 200, 0.1)" : "rgba(255, 0, 0, 0.1)",
     border: "1px solid blue",
     pointerEvents: "auto",
-    cursor: "pointer",
+    cursor: field.dragOriginatingOffset ? "move" : "pointer",
     boxShadow: isActive ? "0 0 14px #9ecaed" : "none"
   };
 };

@@ -16,12 +16,17 @@ export default function MoveableResizable({ region, field, style, children }: Pr
 
   const onMouseDown = (e) => {
     e.stopPropagation();
+
+    const dragOriginatingCoordinates = { x: e.clientX, y: e.clientY };
     if (field)
       updateRegion(region, {
         isActive: true,
-        fields: [...region.fields.filter((x) => x !== field), { ...field, isDragging: true }]
+        fields: [
+          ...region.fields.filter((x) => x !== field),
+          { ...field, dragOriginatingOffset: dragOriginatingCoordinates }
+        ]
       });
-    else updateRegion(region, { isDragging: true, isActive: true });
+    else updateRegion(region, { dragOriginatingOffset: dragOriginatingCoordinates, isActive: true });
   };
 
   const onClick = (e) => {

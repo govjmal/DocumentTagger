@@ -43,6 +43,8 @@ const providerStyle = (regions: RegionType[]): React.CSSProperties => {
     width: "100%",
     height: "100%",
     pointerEvents: "auto",
-    cursor: regions.some((x) => x.isDragging || x.fields.some((f) => f.isDragging)) ? "move" : "auto"
+    cursor: regions.some((x) => x.dragOriginatingOffset || x.fields.some((f) => f.dragOriginatingOffset))
+      ? "move"
+      : "auto"
   };
 };

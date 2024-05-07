@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTaggablePdfStore } from "../taggablePdf.store";
 import {
   getPage,
@@ -12,21 +12,51 @@ export default function useDragging(pageNumber: number) {
   const regions = useTaggablePdfStore((x) => x.regions);
   const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
 
-  const draggingRegion = regions.find((x) => x.isDragging);
-  const draggingField = regions.map((x) => x.fields.find((f) => f.isDragging)).filter((x) => !!x)[0];
+  const draggingRegion = regions.find((x) => !!x.dragOriginatingOffset);
+  const draggingField = regions.map((x) => x.fields.find((f) => !!f.dragOriginatingOffset)).filter((x) => !!x)[0];
+
+  const [clickPositionXOffset, setClickPositionXOffset] = useState(null);
+  const [clickPositionYOffset, setClickPositionYOffset] = useState(null);
+
+  useEffect(() => {
+    const draggedEntity = draggingRegion ?? draggingField;
+    if (draggedEntity) {
+      const { x, y } = calculateRelativeXAndY(
+        draggedEntity.dragOriginatingOffset.x,
+        draggedEntity.dragOriginatingOffset.y
+      );
+      setClickPositionXOffset(x - draggedEntity.location.x);
+      setClickPositionYOffset(y - draggedEntity.location.y);
+    } else {
+      setClickPositionXOffset(null);
+      setClickPositionYOffset(null);
+    }
+  }, [draggingField?.id, draggingRegion?.id]);
+
+  const calculateRelativeXAndY = (eventX: number, eventY: number): { x: number; y: number } => {
+    const page = getPage(pageNumber);
+    const baseXOffset = getPageBaseX(page);
+    const baseYOffset = getPageBaseY(page);
+
+    const relativeX = eventX - baseXOffset + getScrollXOffset();
+    const relativeY = eventY - baseYOffset + getScrollYOffset();
+    return {
+      x: relativeX,
+      y: relativeY
+    };
+  };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (draggingRegion || draggingField) {
-      const page = getPage(pageNumber);
-      const baseXOffset = getPageBaseX(page);
-      const baseYOffset = getPageBaseY(page);
+    const hasCalculatedOffsets = clickPositionXOffset && clickPositionYOffset;
+    if ((draggingRegion || draggingField) && hasCalculatedOffsets) {
+      const { x, y } = calculateRelativeXAndY(event.clientX, event.clientY);
 
       if (draggingRegion) {
         updateRegion(draggingRegion, {
           location: {
             ...draggingRegion.location,
-            x: event.clientX - baseXOffset + getScrollXOffset() + 5,
-            y: event.clientY - baseYOffset + getScrollYOffset() + 5
+            x: x - clickPositionXOffset,
+            y: y - clickPositionYOffset
           }
         });
       } else if (draggingField) {
@@ -39,8 +69,8 @@ export default function useDragging(pageNumber: number) {
               ...draggingField,
               location: {
                 ...draggingField.location,
-                x: event.clientX - baseXOffset + getScrollXOffset() + 5,
-                y: event.clientY - baseYOffset + getScrollYOffset() + 5
+                x: x - clickPositionXOffset,
+                y: y - clickPositionYOffset
               }
             }
           ]
@@ -50,11 +80,11 @@ export default function useDragging(pageNumber: number) {
   };
 
   const handleMouseUp = () => {
-    if (draggingRegion) updateRegion(draggingRegion, { isDragging: false });
+    if (draggingRegion) updateRegion(draggingRegion, { dragOriginatingOffset: null });
     if (draggingField) {
       const region = regions.find((x) => x.fields.some((f) => f === draggingField));
       updateRegion(region, {
-        fields: [...region.fields.filter((x) => x !== draggingField), { ...draggingField, isDragging: false }]
+        fields: [...region.fields.filter((x) => x !== draggingField), { ...draggingField, dragOriginatingOffset: null }]
       });
     }
   };

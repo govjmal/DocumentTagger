@@ -19,7 +19,6 @@ export default function ResizeSide({ onClick, side }: Props) {
         width: isLeftOrRight ? "3px" : "100%",
         position: "absolute",
         [side]: "-3px",
-        background: "red",
         cursor: isLeftOrRight ? "col-resize" : "row-resize"
       }}
       onClick={(e) => e.stopPropagation()}

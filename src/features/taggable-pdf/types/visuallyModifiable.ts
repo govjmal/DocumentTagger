@@ -1,6 +1,6 @@
 import { Side } from "./side";
 
 export type VisuallyModifiable = {
-  isDragging?: boolean;
+  dragOriginatingOffset?: { x: number; y: number };
   sideBeingResized?: Side;
 };
