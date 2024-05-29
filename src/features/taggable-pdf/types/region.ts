@@ -4,6 +4,8 @@ export type Region = VisuallyModifiable & {
   userFriendlyName?: string;
   id?: string;
   keywords?: string;
+  occurenceOnPage?: number;
+  matchInSentence?: boolean;
   location: Location;
   fields?: Field[];
   isActive?: boolean;
@@ -18,7 +20,5 @@ export type Location = {
 };
 
 export type Field = VisuallyModifiable & {
-  userFriendlyName?: string;
-  id?: string;
   location: Omit<Location, "pageNumber">;
 };

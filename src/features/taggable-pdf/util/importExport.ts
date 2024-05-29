@@ -4,7 +4,7 @@ type Configuration = {
   regions: ConfigurationRegion[];
 };
 
-type ConfigurationRegion = Omit<Region, "isActive">;
+type ConfigurationRegion = Omit<Region, "isActive" | "dragOriginatingOffset" | "sideBeingResized">;
 
 export const ToConfiguration = (regions: Region[]): Configuration => {
   return {
@@ -15,7 +15,9 @@ export const ToConfiguration = (regions: Region[]): Configuration => {
         fields: region.fields,
         location: region.location,
         id: region.id,
-        keywords: region.keywords
+        keywords: region.keywords,
+        matchInSentence: region.matchInSentence,
+        occurenceOnPage: region.occurenceOnPage
       };
     })
   };

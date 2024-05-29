@@ -25,6 +25,7 @@ export default ({ region, field }: Props) => {
           <>
             <TopPanel
               {...field}
+              userFriendlyName={region.userFriendlyName + " Value"}
               colour="hsl(203, 100%, 39%)"
               actionsComponent={<PencilEditButton onClick={() => setConfigModalVisible(true)} />}
             />

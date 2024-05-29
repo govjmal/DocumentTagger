@@ -56,7 +56,9 @@ export default function useDrawing(pageNumber: number) {
           ...regions,
           {
             userFriendlyName: `Region ${regions.length + 1}`,
-            id: `page_${pageNumber}_region_${regions.length + 1}`,
+            id: null,
+            matchInSentence: false,
+            occurenceOnPage: 1,
             fields: [],
             location: {
               x: drawingRegion.x,
