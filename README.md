@@ -4,7 +4,7 @@ Draw regions on PDFs and create configuration for use by OCR or Text Coordinate 
 
 # Visual demo
 
-![Jun-13-2024 21-07-13](https://github.com/govjmal/DocumentTagger/assets/4456125/44606d45-e608-438f-9abe-75cef137460a)
+![Jun-13-2024 21-09-44](https://github.com/govjmal/DocumentTagger/assets/4456125/87c9d9f1-e654-46d2-8180-afb1f1610c34)
 
 ## Resulting export
 
