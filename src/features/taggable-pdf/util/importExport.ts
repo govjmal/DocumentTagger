@@ -31,7 +31,7 @@ export const ToConfiguration = (
       // Manually map to remove non-conformant runtime properties and add percentages
       return {
         userFriendlyName: region.userFriendlyName,
-        value: !!value && {
+        value: !!value ? {
           location: {
             ...value.location,
             xPercent: percentage(value.location.x, pageDimensions.width),
@@ -39,7 +39,7 @@ export const ToConfiguration = (
             widthPercent: percentage(value.location.width, pageDimensions.width),
             heightPercent: percentage(value.location.height, pageDimensions.height)
           }
-        },
+        } : null,
         location: {
           ...region.location,
           xPercent: percentage(region.location.x, pageDimensions.width),
