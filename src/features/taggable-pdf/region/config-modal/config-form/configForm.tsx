@@ -25,7 +25,7 @@ export default function ConfigForm() {
         type="number"
         label="Occurence on page"
         placeholder="1"
-        description="The expected occurrences of the keywords (as a full match) on the page"
+        description="The expected occurrences of the keywords on the page"
         {...register("occurenceOnPage", { valueAsNumber: true, required: true, min: 1 })}
       />
       <Checkbox

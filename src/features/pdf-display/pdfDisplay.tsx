@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { A4PageWidthPixels } from "./constants/dimensions";
+import { usePdfDisplayStore } from "./pdfDisplayStore";
 
 // Enable PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -10,10 +12,18 @@ interface Props {
 }
 
 export default ({ pdfFile, pageContent: PageContent }: Props) => {
+  const { updatePageDimensions } = usePdfDisplayStore();
   const [numPages, setNumPages] = useState<number>(0);
 
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+  const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
+  };
+
+  const onPageLoadSuccess = (page, index) => {
+    if (index !== 1) return;
+
+    const { width, height } = page;
+    updatePageDimensions({ width: width, height: height });
   };
 
   const pages = [];
@@ -24,8 +34,9 @@ export default ({ pdfFile, pageContent: PageContent }: Props) => {
         pageNumber={i}
         renderTextLayer={false}
         renderAnnotationLayer={false}
-        width={800}
-        className="mt-6">
+        width={A4PageWidthPixels}
+        className="mt-6"
+        onLoadSuccess={(page) => onPageLoadSuccess(page, i)}>
         <PageContent pageNumber={i} />
       </Page>
     );

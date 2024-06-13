@@ -9,6 +9,7 @@ export type Region = VisuallyModifiable & {
   location: Location;
   fields?: Field[];
   isActive?: boolean;
+  internalId?: string;
 };
 
 export type Location = {

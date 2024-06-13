@@ -1,9 +1,9 @@
 import { EventSuppressedDiv, PencilEditButton } from "@/components";
 import { useState } from "react";
 import { Field, Region } from "../../types/region";
-import ConfigModal from "../config-modal/configModal";
 import MoveableResizable from "../moveable-resizable/moveableResizable";
 import TopPanel from "../top-panel/topPanel";
+import FieldConfigModal from "./config-modal/fieldConfigModal";
 import * as styles from "./field.styles";
 
 interface Props {
@@ -32,7 +32,9 @@ export default ({ region, field }: Props) => {
           </>
         )}
       </MoveableResizable>
-      {configModalVisible && <ConfigModal region={region} onClose={() => setConfigModalVisible(false)} />}
+      {configModalVisible && (
+        <FieldConfigModal region={region} field={field} onClose={() => setConfigModalVisible(false)} />
+      )}
     </EventSuppressedDiv>
   );
 };

@@ -12,8 +12,8 @@ export default function useDragging(pageNumber: number) {
   const regions = useTaggablePdfStore((x) => x.regions);
   const updateRegion = useTaggablePdfStore((x) => x.updateRegion);
 
-  const draggingRegion = regions.find((x) => !!x.dragOriginatingOffset);
-  const draggingField = regions.map((x) => x.fields.find((f) => !!f.dragOriginatingOffset)).filter((x) => !!x)[0];
+  const draggingRegion = regions.find((x) => !!x.dragClickPositionOffset);
+  const draggingField = regions.map((x) => x.fields.find((f) => !!f.dragClickPositionOffset)).filter((x) => !!x)[0];
 
   const [clickPositionXOffset, setClickPositionXOffset] = useState(null);
   const [clickPositionYOffset, setClickPositionYOffset] = useState(null);
@@ -22,8 +22,8 @@ export default function useDragging(pageNumber: number) {
     const draggedEntity = draggingRegion ?? draggingField;
     if (draggedEntity) {
       const { x, y } = calculateRelativeXAndY(
-        draggedEntity.dragOriginatingOffset.x,
-        draggedEntity.dragOriginatingOffset.y
+        draggedEntity.dragClickPositionOffset.x,
+        draggedEntity.dragClickPositionOffset.y
       );
       setClickPositionXOffset(x - draggedEntity.location.x);
       setClickPositionYOffset(y - draggedEntity.location.y);
@@ -31,7 +31,7 @@ export default function useDragging(pageNumber: number) {
       setClickPositionXOffset(null);
       setClickPositionYOffset(null);
     }
-  }, [draggingField?.id, draggingRegion?.id]);
+  }, [draggingField?.dragClickPositionOffset, draggingRegion?.dragClickPositionOffset]);
 
   const calculateRelativeXAndY = (eventX: number, eventY: number): { x: number; y: number } => {
     const page = getPage(pageNumber);
@@ -80,11 +80,14 @@ export default function useDragging(pageNumber: number) {
   };
 
   const handleMouseUp = () => {
-    if (draggingRegion) updateRegion(draggingRegion, { dragOriginatingOffset: null });
+    if (draggingRegion) updateRegion(draggingRegion, { dragClickPositionOffset: null });
     if (draggingField) {
       const region = regions.find((x) => x.fields.some((f) => f === draggingField));
       updateRegion(region, {
-        fields: [...region.fields.filter((x) => x !== draggingField), { ...draggingField, dragOriginatingOffset: null }]
+        fields: [
+          ...region.fields.filter((x) => x !== draggingField),
+          { ...draggingField, dragClickPositionOffset: null }
+        ]
       });
     }
   };

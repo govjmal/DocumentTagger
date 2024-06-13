@@ -14,5 +14,5 @@ export const regionHasFullDetails = (region: Region): boolean => {
 };
 
 export const fieldHasFullDetails = (field: Field): boolean => {
-  return !!(field.id && field.userFriendlyName);
+  return true;
 };

@@ -23,10 +23,10 @@ export default function MoveableResizable({ region, field, style, children }: Pr
         isActive: true,
         fields: [
           ...region.fields.filter((x) => x !== field),
-          { ...field, dragOriginatingOffset: dragOriginatingCoordinates }
+          { ...field, dragClickPositionOffset: dragOriginatingCoordinates }
         ]
       });
-    else updateRegion(region, { dragOriginatingOffset: dragOriginatingCoordinates, isActive: true });
+    else updateRegion(region, { dragClickPositionOffset: dragOriginatingCoordinates, isActive: true });
   };
 
   const onClick = (e) => {
